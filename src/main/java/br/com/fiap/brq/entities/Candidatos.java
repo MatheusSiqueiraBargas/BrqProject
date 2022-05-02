@@ -2,7 +2,6 @@ package br.com.fiap.brq.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -62,15 +61,15 @@ public class Candidatos implements Serializable {
 	    joinColumns={ @JoinColumn(name="ID_CANDIDATO") }, 
 	    inverseJoinColumns={ @JoinColumn(name="ID_CERTIFICACAO") }
 	)
-	private Set<Certificacoes> certificacoes = new LinkedHashSet<>();
+	private Set<Certificacoes> certificacoes;
 	
-	@ManyToMany(targetEntity=CandidatoHabilidade.class)
+	@ManyToMany
 	@JoinTable(
 	    name="CANDIDATO_HABILIDADE", 
 	    joinColumns={ @JoinColumn(name="ID_CANDIDATO") }, 
 	    inverseJoinColumns={ @JoinColumn(name="ID_HABILIDADE") }
 	)
-	private Set<Habilidades> habilidades = new LinkedHashSet<>();
+	private Set<Habilidades> habilidades;
 	
 	/* GETTERS & SETTERS */
 

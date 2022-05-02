@@ -64,9 +64,9 @@ public class CadidatosController {
 	@ResponseBody
 	@ApiOperation(value="Buscar candidato pelo id")
 	@GetMapping(value="/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public Candidatos findById(@PathVariable Long id) {
-		Candidatos result = service.findById(id).get();
-		return result;
+	public ResponseEntity<?> findById(@PathVariable Long id) {
+		Candidatos entity = service.findById(id).get();
+		return ResponseEntity.ok(entity);
 	}
 	
 	@ResponseBody
@@ -74,8 +74,8 @@ public class CadidatosController {
 	@PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<?> create(@RequestBody Candidatos candidatos) {
-		Candidatos result = service.create(candidatos);
-		return ResponseEntity.ok(result);
+		Candidatos entity = service.create(candidatos);
+		return ResponseEntity.ok(entity);
 	}
 	
 	@ResponseBody
@@ -83,8 +83,8 @@ public class CadidatosController {
 	@PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<?> update(@RequestBody Candidatos candidatos) {
-		Candidatos result = service.update(candidatos);
-		return ResponseEntity.ok(result);
+		Candidatos entity = service.update(candidatos);
+		return ResponseEntity.ok(entity);
 	}
 	
 	@ApiOperation(value="Remover um candidato")
