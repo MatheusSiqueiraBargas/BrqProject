@@ -59,12 +59,13 @@ public class CadidatosController {
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nome"));
 		
 		Page<Candidatos> result = service.findAll(filters, pageable);
-		List<Candidatos> candidatos = result
+		List<Candidatos> ordenedItems = result
 			.stream()
 			.sorted((a, b) -> Long.compare(b.getCertificacoes().size(), a.getCertificacoes().size()))
 			.collect(Collectors.toList());
-
-		PagedModel<?> resources = assembler.toModel(new PageImpl<>(candidatos));
+		
+		Page<Candidatos> candidatos = new PageImpl<Candidatos>(ordenedItems);
+		PagedModel<?> resources = assembler.toModel(candidatos);
 		return new ResponseEntity<>(resources, HttpStatus.OK);
 	}
 	

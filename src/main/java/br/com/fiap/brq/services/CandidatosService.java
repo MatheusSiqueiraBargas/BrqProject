@@ -21,6 +21,14 @@ public class CandidatosService {
 	CandidatosRepository repository;
 	
 	public Page<Candidatos> findAll(Map<String, String> filters, Pageable pageable) {
+		if (filters.get("limit") != null || 
+			filters.get("page") != null || 
+			filters.get("direction") != null) {
+			filters.remove("limit"); 
+	 		filters.remove("page");
+	 		filters.remove("direction");
+	 	}
+		
 		return repository.findAll(filterWithOptions(filters), pageable);
 	}
 	
