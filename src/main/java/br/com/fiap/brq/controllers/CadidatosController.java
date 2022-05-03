@@ -1,9 +1,12 @@
 package br.com.fiap.brq.controllers;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -55,9 +58,13 @@ public class CadidatosController {
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nome"));
 		
-		Page<Candidatos> candidatos = service.findAll(filters, pageable);
+		Page<Candidatos> result = service.findAll(filters, pageable);
+		List<Candidatos> candidatos = result
+			.stream()
+			.sorted((a, b) -> Long.compare(b.getCertificacoes().size(), a.getCertificacoes().size()))
+			.collect(Collectors.toList());
 
-		PagedModel<?> resources = assembler.toModel(candidatos);
+		PagedModel<?> resources = assembler.toModel(new PageImpl<>(candidatos));
 		return new ResponseEntity<>(resources, HttpStatus.OK);
 	}
 	
